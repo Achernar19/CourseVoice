@@ -1,6 +1,6 @@
 const Mongoose = require("mongoose");
 
-const localDB = `mongodb://127.0.0.1:27017/role_auth`;
+const localDB = `mongodb+srv://jorgettesiy:<password>@cluster0.yevuiru.mongodb.net/?retryWrites=true&w=majority`;
 
 const connectDB = async () => {
   await Mongoose.connect(localDB, {
