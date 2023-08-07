@@ -26,3 +26,8 @@ This web application shall act like “DLSU Prof to Pick” wherein BS Computer 
 7. Go to your browser and input http://localhost:3000/.
 8. You can now register in the application.
 9. To exit, use ctrl+c in the Command Prompt window.
+
+## Additional Notes:
+For testing:
+Username: Admin
+Password: 123456
