@@ -1,6 +1,6 @@
 const Mongoose = require("mongoose");
 
-const localDB = `mongodb+srv://jorgettesiy:123456@cluster0.yevuiru.mongodb.net/?retryWrites=true&w=majority`;
+const localDB = `mongodb+srv://cluster0.yevuiru.mongodb.net/?retryWrites=true&w=majority`;
 
 const connectDB = async () => {
   await Mongoose.connect(localDB, {
