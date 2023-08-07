@@ -29,5 +29,5 @@ This web application shall act like “DLSU Prof to Pick” wherein BS Computer 
 
 ## Additional Notes:
 For testing:
-Username: Admin
-Password: 123456
+- Username: Admin
+- Password: 123456
