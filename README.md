@@ -1,19 +1,19 @@
 # CourseVoice
 
-# Members:
+## Members:
 Manansala, Aerelle Myeica S.
 Milan, John Lloyd B.
 Siy, Jorgette Courteney C.
 
-# Brief Description
+## Brief Description
 This web application shall act like “DLSU Prof to Pick” wherein BS Computer Science Major in Network and Information Security (CS-NIS) and BS Computer Science Major in Software Technology (CS-ST) students will get the chance to have an in-depth understanding of their courses. Besides this, they will also have the opportunity to learn about the professors in their respective subjects.
 
-# Requirements
-- NodeJs and npm
-- MongoDB Community Edition
+## Requirements
+- NodeJs and npm (https://nodejs.org/en)
+- MongoDB Community Edition (https://www.mongodb.com/docs/manual/administration/install-community/)
 - Any IDE that can edit JavaScript, EJS, and CSS
 
-# How to Run the Application Locally
+## How to Run the Application Locally
 1. Clone or Download the GitHub repository.
     -  https://github.com/Achernar19/CourseVoice.git
 2. Find the location of CourseVoice-main.zip on your device.
