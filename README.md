@@ -15,13 +15,13 @@ This web application shall act like “DLSU Prof to Pick” wherein BS Computer 
 
 # How to Run the Application Locally
 1. Clone or Download the GitHub repository.
-  - https://github.com/Achernar19/CourseVoice.git
+    -  https://github.com/Achernar19/CourseVoice.git
 2. Find the location of CourseVoice-main.zip on your device.
 3. Open the Command Prompt on your desktop with the location of CourseVoice-main.zip.
 4. Input the following in the Command Prompt to ensure all dependencies are installed.
-  - npm install
+    - npm install
 5. Input the following in the Command Prompt to run the application.
-  - node app.js 
+    - node app.js 
 6. Ensure that there is a prompt indicating that the server is connected to port 3000 and that MongoDB is connected as well.
 7. Go to your browser and input http://localhost:3000/.
 8. You can now register in the application.
