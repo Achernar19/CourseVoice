@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up Form</title>
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+</head>
+<body>
+<div class="temp">
+  <img src="/Images/multiple-users-silhouette.png"><span>CourseVoice</span>
+</div>
+<h2>DE LA SALLE UNIVERSITY</h2>
+<div class="container">
+    <form id="signup-form">
+        <input type="name" id="name" name="name" placeholder="Name" required>
+        <input type="username" id="username" name="username" placeholder="Username (Must be unique)" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm Password" required>
+        <a href="login"><input type="submit" value="Sign Up" class="signup-button"></a>
+        <a href="login" class="login-link">Already have an account? <span class="login-highlight">Log In</span></a>
+    </form>
+   
+</div>
+<br />
+<div id="message" style="text-align: center;"></div>
+<script>
+    const form = document.querySelector('#signup-form')
+    const name = document.querySelector('#username')
+    const username = document.querySelector('#username')
+    const password = document.querySelector('#password')
+    const confirmPassword = document.querySelector('#confirm-password')
+    const display = document.querySelector('#message')
+
+     form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        display.textContent = ''
+        try {
+          const res = await fetch('/api/auth/register', {
+            method: 'POST',
+            body: JSON.stringify({ 'name': name.value, 'username': username.value, 'password': password.value, 'confirmPassword': confirmPassword.value }),
+            headers: { 'Content-Type': 'application/json' }
+          })
+          const data = await res.json()
+          if(res.status === 400 || res.status === 401){
+           return display.textContent = `User already exists/Passwords do not match`
+          }
+          location.assign('/login')
+        } catch (err) {
+          console.log(err.message)
+        }
+
+      })
+  </script>
+</body>
+</html>

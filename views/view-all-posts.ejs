@@ -1,0 +1,192 @@
+<!--
+    Manansala, Aerelle Myeica S.
+    Milan, John Llyod B.
+    Siy, Jorgette Courteney C.
+    CCAPDEV S16 Group 3
+    MCO1
+-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title><%= sub %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+</head>
+<body>
+<header>
+    <p><h2><%= mainMapped %></h2>
+</header>
+<div class="sidebar">
+    <ul>
+        <li><a href="/search"><i class="fas fa-search"></i><span class="nav-item">Search</span></a></li>
+        <li><a href="/dashboard"><i class="fas fa-home"></i><span class="nav-item">Home</span></a></li>
+        <li><a href="/course"><i class="fas fa-list"></i><span class="nav-item">All Courses</span></a></li>
+        <li><a href="/profile"><i class="fas fa-cog"></i><span class="nav-item">Settings</span></a></li>
+    </ul>
+    <ul class="logout">
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i><span class="nav-item">Log Out</span></a></li>
+    </ul>
+</div>
+<div class="greetings">
+    <p hidden id="username"><%= username %></p>
+    <div class="plus">
+        <p><strong><%= sub %> (<%= subMapped %>)</strong></p>
+        <a id="add-post"> <img src="/Images/plus.png"><span class="pluss"> Add post </span> </a>
+    </div>
+</div>
+<div id="overlay" >
+</div>
+<div class="courses-row">
+</div>
+<script>
+    const subTitle = "<%= sub %>";
+    const mainTitle = "<%= main %>";
+    const addButton = document.querySelector("#add-post");
+    const row = document.querySelector(".courses-row");
+    const username = document.querySelector("#username");
+    const overlay = document.querySelector("#overlay")
+    let confirmDelete;
+    let i = 0;
+
+    addButton.href = `/course/${mainTitle}/${subTitle}/add`
+
+
+    const initDelete = (id, professor, username, content) => {
+        let deleteHTML = `
+        
+        <div id="confirm-delete">
+            
+            <div class="greetings">
+                <p id="course" style="color: white;"><strong>Delete this post?</strong></p>
+            </div>
+
+            <div class="profile-container">
+                <h1 id="professor">${professor}</h1>
+                <p><i id="username">Author: ${username}</i></p>
+                <div class="with-space">
+                    <textarea id="description" readonly>${content}</textarea>
+                </div>
+            </div>
+            <button class="button save" id="confirm-button">Confirm</button>
+            <button class="button save" onclick="cancelDelete()" id="cancel-button">Cancel</button>
+
+        </div>
+        
+        
+        `
+
+        overlay.innerHTML = deleteHTML;
+        overlay.style.display = "block";
+
+        confirmDelete = document.querySelector("#confirm-button");
+        confirmDelete.addEventListener("click", async () => {
+            deletePost(id);
+            location.assign(`/course/${mainTitle}/${subTitle}`)
+        })
+    }
+
+    const cancelDelete = () => {
+        overlay.style.display = "none";
+    }
+
+
+    const likePost = async (id) => {
+        const res = await fetch('/api/auth/likePost', {
+        method: 'PUT',
+        body: JSON.stringify({ 
+            'id': id,
+        }),
+        headers: { 'Content-Type': 'application/json' }
+        })
+
+        location.assign(`/course/${mainTitle}/${subTitle}`)
+    }
+
+    const dislikePost = async (id) => {
+        const res = await fetch('/api/auth/dislikePost', {
+        method: 'PUT',
+        body: JSON.stringify({ 
+            'id': id,
+        }),
+        headers: { 'Content-Type': 'application/json' }
+        })
+
+        location.assign(`/course/${mainTitle}/${subTitle}`)
+    }
+
+    const deletePost = async (id) => {
+        await fetch('/api/auth/deletePost', {
+              method: 'DELETE',
+              body: JSON.stringify({'id': id}),
+              headers: {'Content-Type': 'application/json'}
+        })
+    }
+
+    const getPosts = async() => {
+      const res = await fetch('/api/auth/getPosts')
+      const data = await res.json()
+      data.user.map((mappedPost)=> {
+        console.log(mappedPost.reports);
+        if (mappedPost.reports > 1) {
+            deletePost(mappedPost.id);
+        }
+        else if (mappedPost.course == subTitle) {
+            let link = `/course/${mainTitle}/${subTitle}/${mappedPost.id}`;
+            let likeAction = "likePost(\"" + mappedPost.id + "\")"
+            let dislikeAction = "dislikePost(\"" + mappedPost.id + "\")"
+
+            let overlayId = `\"${mappedPost.id}\"`
+            let overlayProfessor = `\"${mappedPost.professor}\"`
+            let overlayUsername = `\"${mappedPost.username}\"`
+            let overlayContent = `\"${mappedPost.content}\"`
+            let deleteOverlay =  "initDelete(" + `${overlayId}, ${overlayProfessor}, ${overlayUsername}, ${overlayContent}` + ")"
+            
+          let content = `
+          <div class="st${(i%2 + 1)}">
+        <a href="${link}"><h2>${mappedPost.professor}</h2></a>
+        <p class="with-space">${mappedPost.content}</p>
+        <p class="text-spacing"><i>Author: ${mappedPost.username}</i></p>
+        <div class="images">
+            <a href='javascript:${likeAction}'>${mappedPost.likes}<img src="/Images/like.png" ></a>
+            <a href='javascript:${dislikeAction}'>${mappedPost.dislikes}<img class="${mappedPost.id} dislike" src="/Images/unlike.png" ></a>
+        </div>
+        <div class='pic'>
+            <a href='/course/${mainTitle}/${subTitle}/${mappedPost.id}/report'><img src="/Images/warning.png" ></a>
+          `
+
+          if (mappedPost.username == username.innerText) {
+            content += `
+
+            <a href="${link + '/edit'}"> <img src="/Images/pen.png" > </a>
+            <a  href='javascript:${deleteOverlay}'> <img src="/Images/bin.png" > </a>
+        </div>
+    </div>
+            `
+          }
+          else {
+            content += `        </div>
+    </div>`
+          }
+
+
+
+          row.innerHTML += content;
+          i += 1;
+        } else {
+          return null
+        }
+    })
+
+}
+    getPosts();
+    
+
+
+ 
+
+</script>
+</body>
+</html>

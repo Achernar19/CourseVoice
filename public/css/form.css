@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css?family=Inter');
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Inter";
+
+}
+
+.temp{
+	padding-top: 50px;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	cursor: context-menu;
+}
+
+.temp span {
+	font-family: "Poppins";
+	color: #96e072;
+	font-size: 48px;
+	font-weight: 700;
+  }
+
+.temp img {
+	width: 60px;
+	height: 60px;
+	margin-right: 20px;
+  }
+
+h2 {
+	font-size: 10px;
+	text-align: center;
+	color: #7f7f7f;
+	font-weight: 900;
+	letter-spacing: 2px;
+	cursor: context-menu;
+  }
+
+a {
+	text-decoration: none;
+}
+
+.login-container{
+	height: 200px;
+	width: 350px;
+	background-color: #f4f4f4;
+	text-align: center;
+	padding: 30px;
+	margin-top: 100px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	position: relative;
+}
+
+.container {
+	height: 300px;
+	width: 350px;
+	background-color: #f4f4f4;
+	text-align: center;
+	padding: 30px;
+	margin-top: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	position: relative;
+	
+}
+  
+  .container input, .login-container input{
+	width: 94%;
+	margin-bottom: 20px;
+	padding-left: 20px;
+  }
+  
+  .container label, .login-container label {
+	color: rgba(0, 0, 0, 0.3);
+	font-size: 12px;
+  }
+  
+  .container input[type="name"],
+  .container input[type="username"],
+  .container input[type="password"],
+  .login-container input[type="username"],
+  .login-container input[type="password"] {
+	border: none;
+	background: white;
+	outline: none;
+	height: 40px;
+	font-size: 12px;
+	border-radius: 20px;
+  }
+  
+  .container input[type="name"]::placeholder,
+  .container input[type="username"]::placeholder,
+  .container input[type="password"]::placeholder,
+  .login-container input[type="username"]::placeholder,
+  .login-container input[type="password"]::placeholder {
+	color: #999999;
+	font-size: 10px;
+
+  }
+
+  input[type="checkbox"] {
+    vertical-align:middle;
+}
+  
+  .container .signup-button, .login-container .login-button {
+	padding: 0;
+	border: none;
+	height: 30px;
+	background: #3164f4;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 100px;
+	cursor: pointer;
+	margin: auto;
+	display: block;
+	width: 120px;
+	text-align: center;
+  }
+  
+  .container .signup-button:hover, .login-container .login-button:hover {
+	background: #ffc107;
+	color: #000;
+  }
+  
+  .container .login-link, .login-container .signup-link {
+	text-decoration: none;
+	font-size: 12px;
+	line-height: 20px;
+	color: #999999;
+	position: absolute; /* Add this line to enable absolute positioning */
+	bottom: 10px; /* Adjust the value as needed */
+	left: 40px; /* Adjust the value as needed */
+  }
+  
+  .container .login-link .login-highlight, .login-container .signup-link .signup-highlight{
+	color: #3164f4;
+  }

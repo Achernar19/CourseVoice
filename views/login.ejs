@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+</head>
+<body>
+  <div class="temp">
+    <img src="/Images/multiple-users-silhouette.png"><span>CourseVoice</span>
+ </div>
+<h2>DE LA SALLE UNIVERSITY</h2>
+<div class="login-container">
+    <form id="login-form">
+        <input type="username" id="username" name="username" placeholder="Username" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <div style="display: inline-flex; align-content: left;">
+          <input type="checkbox" id="remember-me" name="remember-me" value="1" >
+          <label for="remember-me" style="white-space: nowrap; margin-left: 1em; color: black;">Remember me?</label>
+        </div>
+        
+        <input type="submit" value="Log in" class="login-button">
+        <a href="/register" class="signup-link">New here?<span class="signup-highlight"> Sign Up</span></a>
+    </form>
+  
+</div>
+<br />
+<div id="message" style="text-align: center;"></div>
+
+<script>
+    const form = document.querySelector('#login-form')
+    const username = document.querySelector('#username')
+    const password = document.querySelector('#password')
+    const display = document.querySelector('#message')
+    const rememberMe = document.querySelector("#remember-me")
+
+   form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      display.textContent = ''
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({ username: username.value, password: password.value, rememberMe: rememberMe.checked }),
+          headers: { 'Content-Type': 'application/json' }
+        })
+        const data = await res.json()
+        if (res.status === 400 || res.status === 401) {
+          return display.textContent = 'Invalid credentials'
+        }
+        location.assign('/dashboard')
+      } catch (err) {
+        console.log(err.message)
+      }
+
+    })
+  </script>
+</body>
+</html>

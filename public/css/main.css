@@ -1,0 +1,568 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&family=Tsukimi+Rounded:wght@700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: "Montserrat";
+}
+
+body {
+    background: white;
+}
+
+header {
+    padding: 20.5px;
+    background-color: #134611;
+    color: #E8FCCF;
+    margin-left: 80px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.sidebar {
+  position: fixed; /* Fixed position to stay on the screen */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the right */
+  bottom: 0;
+  width: 80px; /* Adjust the width as needed */
+  background-color: #134611; /* Set the background color */
+  overflow: hidden;
+  transition: width 0.2s linear;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
+
+.sidebar a{
+    width: 300px;
+}
+
+a {
+    position: relative;
+    color: #000000;
+    font-size: 14px;
+    display: table;
+    padding: 0px;
+}
+
+a:hover {
+    color: #3DA35D;
+}
+
+.fas {
+    position: relative;
+    width: 70px;
+    height: 42px;
+    top: 14px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.nav-item {
+    position: relative;
+    top:2px;
+    margin-left: 20px;
+}
+
+.logout {
+    position: absolute;
+    bottom: 0;
+  }
+  
+.logout ul {
+    list-style-type: none;
+  }
+
+.sidebar ul li a:hover {
+    background: #96E072;
+}
+
+.sidebar:hover {
+    width: 280px;
+    transition: all 0.5s ease;
+}
+
+.sidebar ul {
+    list-style-type: none; 
+    padding-top: 70px; 
+    margin: 0; 
+  }
+
+.sidebar ul li a { /* style for icons */
+  color: #E8FCCF; 
+  font-size: 20px; 
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.greetings {
+	margin-left: 100px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+	font-size: 30px;
+}
+
+.cs-container { /*home page computer science container */
+    margin-left: 100px;
+    margin-right: 20px;
+	background-color: #E8FCCF;
+    padding: 30px;
+	border-radius: 25px; 
+    text-align: justify;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px; 
+  margin-top: 30px;
+  margin-left: 100px;
+  margin-right: 20px;
+}
+
+.author i{
+    margin-top: 25px;
+    position: absolute;
+    font-size: smaller;
+}
+
+.with-space {
+    margin-top: 10px; /* Add space before the text */
+    margin-bottom: 20px;
+}
+
+.cse-container, .nis-container { /*home page CSE & NIS container */
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 25px;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+}
+
+.st-container { /*home page ST container */
+    padding: 20px;
+    background-color: #E8FCCF;
+    border-radius: 25px;
+    text-align: justify;
+    display: flex;
+    flex-direction: column;
+  }
+
+.cs-container a, .cse-container a, .st-container a, .nis-container a{
+    margin-top: auto;
+}
+
+.cs-container h1, .cse-container h2, .st-container h2, .nis-container h2{
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.button {
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.next {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+    position: relative;
+  }
+
+
+.proceed {
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50;
+}
+
+.com {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+    position: relative;
+    margin-top: 20px;
+}
+
+.save {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+    float: right;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-bottom: 15px;
+    margin-right: 20px;
+}
+
+.proceed:hover, .next:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.subject-container{
+    margin-left: 100px;
+    margin-right: 20px;
+    background-color: #134611;
+    padding: 20px;
+	border-radius: 5px; 
+}
+
+.subject-container a {
+    color: #E8FCCF;
+    font-size: 12px;
+    width: 90%;
+}
+
+.subject-container a:hover {
+    color: #3DA35D;
+}
+
+.courses {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px; 
+    margin-top: 20px;
+    margin-left: 100px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.courses h1 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+}
+
+.content1 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #f2f2f2;
+    border-radius: 25px;
+    text-align: center;
+  }
+  
+.content2 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #E8FCCF;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.content1 h1, .content2 h1 {
+    font-size: 20px;
+}
+
+.content1 a, .content2 a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.courses-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-left: 100px;
+    margin-top: 20px;
+    margin-right: 20px;
+    padding-bottom: 20px;
+}
+
+.go {
+    display: flex;
+    flex-direction: column;
+}
+
+.go a{
+    margin-left: auto;
+}
+
+.st1 {
+    padding: 25px;
+    background-color: #E8FCCF;
+    text-align: justify;
+    border-radius: 10px;
+}
+
+.st2 {
+    padding: 25px;
+    background-color: #f2f2f2;
+    text-align: justify;
+    border-radius: 10px;
+}
+
+.text-spacing {
+    position: absolute;
+    padding-top: 5px;
+    font-size: small;
+}
+
+.plus {
+    display: flex;
+    justify-content: space-between;
+}
+
+.plus img {
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-top: 5px;
+    margin-right: 90px;
+    margin-left: 10px;
+}
+
+.pluss {
+    margin-left: 45px;
+    display: flex;
+    position: absolute;
+    margin-top: 11px;
+}
+
+.pic img, .pic a{
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-left: 8px;
+    margin-top: 8px;
+}
+
+.images img, .images a {
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-left: 8px;
+}
+
+textarea {
+    font-size: 0.875rem;
+    width: 100%;
+    height: 15vh; 
+    padding: 20px;
+    border-radius: 10px;
+    display: flexbox;
+    resize: none;
+    z-index: 999;
+}
+
+.profile-container {
+    grid-template-columns: repeat(1, 100%);
+    background-color: #96E072;
+    margin-top: 10px;
+    margin-left: 100px;
+    margin-right: 20px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.profile-container h2{
+    padding-bottom: 20px;
+    padding-top: 20px;
+    font-size: 30px;
+}
+
+.pen-name {
+    position: absolute;
+     width: 30px;
+     height: 30px;
+     margin-right: 20px;
+     margin-top: 5px;
+}
+
+.profile-container h5 {
+    top: 10%;
+    left: 50%;
+    background: #ffffff;
+    height: 450px;
+    padding: 20px;
+}
+
+.credibility-score{
+    float: right;
+    font-size: medium;
+    font-weight: lighter
+}
+
+.prof-rel-box {
+    grid-template-columns: repeat(1, 100%);
+    margin-top: 50px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    position: relative;
+}
+
+.prof-rel-box p {
+    text-align: justify;
+    padding: 20px;
+}
+
+.searchBox {
+    position: absolute;
+    margin-left: 110px;
+    top: 10%;
+    background: #96E072;
+    height: 60px;
+    border-radius: 40px;
+    padding: 10px;
+
+}
+
+.searchBox:hover > .searchInput {
+    width: 240px;
+    padding: 0 6px;
+}
+
+.searchButton {
+    color: white;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #96E072;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.searchInput {
+    border:none;
+    background: none;
+    outline:none;
+    float:left;
+    padding: 0;
+    color: white;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+
+}
+
+@media screen and (max-width: 620px) {
+.searchBox:hover > .searchInput {
+    width: 150px;
+    padding: 0 6px;
+}
+}
+
+.profile-container .pen-prof {
+      display: flex;
+      float: right;
+      font-size: 10px;
+      gap: 5px;
+}
+
+.profile-container .pen-prof img {
+    width: 20px;
+    height: 20px;
+}
+
+.profile-container .pen-prof p {
+    margin-top: 3px;
+}
+
+.poll-container {
+    margin-left: 100px;
+    margin-top: 20px;
+    margin-right: 20px;
+    background-color: #E8FCCF;
+    border-radius: 5px;
+    grid-template-columns: repeat(1, 100%);
+    padding: 20px;
+    position: relative;
+    text-align: justify;
+}
+
+.poll input {
+    font-size: 0.875rem;
+    margin-top: 20px;
+    margin-right: 50px;
+    height: 50px; 
+    width: 45%;
+    padding-left: 20px;
+    border-radius: 40px;
+    display: inline-flex;
+    resize: none;
+    z-index: 999;
+    background: #ffffff;
+}
+
+.poll output {
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-top: 20px;
+    margin-right: 50px;
+    height: 50px; 
+    width: 45%;
+    padding-left: 20px;
+    border-radius: 40px;
+    display: inline-flex;
+    resize: none;
+    z-index: 999;
+    background: #ffffff;
+    padding-top: 15px;
+    tab-size: 8;
+}
+
+.poll output > pre {
+    tab-size: 16;
+}
+
+.comments-box {
+    margin-left: 100px;
+    margin-right: 20px;
+    background-color: #F5FDEB;
+    border-radius: 5px;
+    grid-template-columns: repeat(1, 100%);
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
+    text-align: justify;
+}
+
+.date-posted {
+    float: right;
+    font-size: small;
+    padding-bottom: 20px;
+}
+
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.75); /* Black background with opacity */
+    z-index: 5; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+  }
+
+#confirm-delete {
+    position: absolute;
+    top: 20%;
+    width: 100%;
+    height: 100%;
+}

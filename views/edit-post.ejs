@@ -1,0 +1,140 @@
+<!--
+    Manansala, Aerelle Myeica S.
+    Milan, John Llyod B.
+    Siy, Jorgette Courteney C.
+    CCAPDEV S16 Group 3
+    MCO1
+-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+</head>
+<body>
+<header>
+    <p><h2>CourseVoice Dashboard</h2></p>
+</header>
+<div class="sidebar">
+    <ul>
+        <li><a href="/search"><i class="fas fa-search"></i><span class="nav-item">Search</span></a></li>
+        <li><a href="/dashboard"><i class="fas fa-home"></i><span class="nav-item">Home</span></a></li>
+        <li><a href="/courses"><i class="fas fa-list"></i><span class="nav-item">All Courses</span></a></li>
+        <li><a href="/profile"><i class="fas fa-cog"></i><span class="nav-item">Settings</span></a></li>
+    </ul>
+    <ul class="logout">
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i><span class="nav-item">Log Out</span></a></li>
+    </ul>
+</div>
+
+<form id="add-post">
+    
+    <div class="greetings">
+        <p id="course"><strong><%= sub %> (<%= subMapped %>)</strong></p>
+    </div>
+    <p hidden id="parent-id"><%= parent %></p>
+    <div class="profile-container">
+    
+        <div class="pen-prof">
+            <img src="/Images/pen.png"> 
+            <p>Editing mode</p>
+        </div>
+        <h1 id="professor"><%= professor %></h1>
+        <p><i id="username">Author: <%= username %></i></p>
+        <div class="with-space">
+            <textarea id="description"><%= content %></textarea>
+        </div>
+    </div>
+
+    <div class="poll-container">
+      <h1 >Poll: <strong contenteditable="true" id="poll-title" style="opacity: 30%; font-size: 30px;"><%= pollTitle.replace(/\&nbsp;/g, '') %></strong></h1>
+      <div class="poll">
+          <input placeholder="Add another option" id="poll-choice"></input>
+      </div>
+  </div>
+
+    <input type="submit" value="Save" class="button save" id="save-button">
+</form>
+<button class="button save" id="add-button">Add Choice</button>
+<button class="button save" id="cancel-button">Cancel</button>
+
+<script>
+  const mainTitle = "<%= main %>";
+  const subTitle = "<%= sub %>";
+
+  const parentId = document.querySelector("#parent-id");
+  const professor = document.querySelector('#professor')
+  const course = document.querySelector('#course')
+  const username = document.querySelector('#username')
+  const description = document.querySelector('#description')
+  const cancel = document.querySelector("#cancel-button")
+  const form = document.querySelector('#add-post')
+  const poll = document.querySelector(".poll");
+  const pollTitle = document.querySelector("#poll-title")
+  const pollAdder = document.querySelector("#add-button");
+  
+  let pollChoices = <%- JSON.stringify(pollChoices) %>, pollScores = <%- JSON.stringify(pollScores) %>;
+  let pollSum = 0;
+  let pollIndex = pollChoices.length;
+
+
+  
+  pollScores.forEach( score => {
+     pollSum += score;
+    })
+
+    for (let p in pollChoices) {
+        let percentage = pollSum != 0 ? Math.round(pollScores[p] * 100 / pollSum) : 0;
+        let selectAction = "selectChoice" + "(" + `\"${p}\"` + ")"
+        let content = `
+        <output id="${p}" onclick=${selectAction}>${pollChoices[p]}</output>
+        `
+        poll.innerHTML += content;
+    }
+
+    pollAdder.addEventListener("click", (e) => {
+        e.preventDefault();
+        const pollChoice = document.querySelector("#poll-choice");
+        if (pollChoice.value != "") {
+            poll.innerHTML += `<input value="${pollChoice.value}" id="choice-${pollIndex}" ></input>`             
+            pollIndex += 1
+            pollChoices.push(pollChoice.value)
+            pollScores.push(0)
+        }
+    }) 
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        try {
+          const res = await fetch('/api/auth/editPost', {
+            method: 'PUT',
+            body: JSON.stringify({
+              'id': parentId.innerText,
+              'professor': professor.innerText,
+              'content': description.value,
+              'pollTitle': pollTitle.innerHTML.replace(/\&nbsp;/g, ''),
+              'pollChoices': pollChoices,
+              'pollScores': pollScores}),
+            headers: { 'Content-Type': 'application/json' }
+          })
+          
+        } catch (err) {
+          console.log(err.message)
+        }
+
+        location.assign(`/course/${mainTitle}/${subTitle}/${parentId.innerText}`)
+      })
+        
+      cancel.addEventListener('click', (e) => {
+        e.preventDefault();
+        location.assign(`/course/${mainTitle}/${subTitle}/${parentId.innerText}`);
+    });
+
+
+  </script>
+</body>
+</html>

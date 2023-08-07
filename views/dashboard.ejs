@@ -1,0 +1,79 @@
+<!--
+    Manansala, Aerelle Myeica S.
+    Milan, John Llyod B.
+    Siy, Jorgette Courteney C.
+    CCAPDEV S16 Group 3
+    MCO1
+-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+</head>
+<body>
+<header>
+    <h2>CourseVoice Dashboard</h2>
+</header>
+<div class="sidebar">
+    <ul>
+        <li><a href="/search"><i class="fas fa-search"></i><span class="nav-item">Search</span></a></li>
+        <li><a href="/dashboard"><i class="fas fa-home"></i><span class="nav-item">Home</span></a></li>
+        <li><a href="/course"><i class="fas fa-list"></i><span class="nav-item">All Courses</span></a></li>
+        <li><a href="/profile"><i class="fas fa-cog"></i><span class="nav-item">Settings</span></a></li>
+    </ul>
+    <ul class="logout">
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i><span class="nav-item">Log Out</span></a></li>
+    </ul>
+</div>
+<div class="greetings">
+    <p><strong>Greetings, <%= username %>!</strong></p>
+</div>
+<div class="cs-container">
+    <h1>Computer Science</h1>
+    <div class="with-space">
+        <p>The College of Computer Studies (CCS) is an educational institution committed to its three-pronged vision of continually sharing knowledge and expertise through
+            teaching, engaging in Computer Science research and Information Technology product development, and rendering service to communities in need.</p>
+    </div>
+    <a href="#Computer Science"><button class="button proceed">Coming Soon</button></a>
+</div>
+<div class="grid-container">
+    <div class="cse-container">
+        <h2>Computer Systems Engineering (CSE)</h2>
+        <div class="with-space">
+            <p>The Computer System Engineering (CSE) program is a multidisciplinary program that combines a foundational computer science
+                curriculum with selected computer engineering courses to create a curriculum that synergistically harnesses the power of
+                digital computers with analog electronics, electromechanical systems and computer software.
+            </p>
+        </div>
+        <a href="#Computer Systems Engineering"><button class="button proceed">Coming Soon</button></a>
+    </div>
+    <div class="st-container">
+        <h2>Software Technology (ST)</h2>
+        <div class="with-space">
+            <p>The Software Technology (ST) program covers computing theories, algorithm design, application and platform-based development, computer architectures, 
+               operating and intelligent systems, software engineering, computational science, technology management, 
+               and machine learning.
+            </p>
+        </div>
+        <a href="/course/ST">
+            <button onclick="ST.html" class="button proceed">Proceed</button>
+        </a>
+    </div>
+    <div class="nis-container">
+        <h2>Network and Information Security (NIS)</h2>
+        <div class="with-space">
+            <p>The Network and Information Security (NIS) program focuses on the interconnection of various devices over a network in relation to
+                the emergence of the Internet of Things (IoT), and understands the vulnerability of these devices and the
+                methods by which they can be secured.
+            </p>
+        </div>
+        <a href="/course/NS"><button class="button proceed">Proceed</button></a>
+    </div>
+</div>
+</body>
+</html>

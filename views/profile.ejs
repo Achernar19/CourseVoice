@@ -1,0 +1,112 @@
+<!--
+    Manansala, Aerelle Myeica S.
+    Milan, John Llyod B.
+    Siy, Jorgette Courteney C.
+    CCAPDEV S16 Group 3
+    MCO1
+-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+</head>
+<body>
+<header>
+    <p><h2>CourseVoice Dashboard</h2></p>
+</header>
+<div class="sidebar">
+    <ul>
+        <li><a href="/search"><i class="fas fa-search"></i><span class="nav-item">Search</span></a></li>
+        <li><a href="/dashboard"><i class="fas fa-home"></i><span class="nav-item">Home</span></a></li>
+        <li><a href="/course"><i class="fas fa-list"></i><span class="nav-item">All Courses</span></a></li>
+        <li><a href="/profile"><i class="fas fa-cog"></i><span class="nav-item">Settings</span></a></li>
+    </ul>
+    <ul class="logout">
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i><span class="nav-item">Log Out</span></a></li>
+    </ul>
+</div>
+<div class="greetings">
+    <img src="/Images/pen.png" class="pen-name"> <p style="padding-left: 35px;"><strong>Profile Settings (Editing Mode)</strong></p>
+    <p style="font-size: x-small; margin-left: 38px;">Edit Name, Username, Biography or Contact Information.</p>
+</div>
+<p hidden id="profile-id"></p>
+<form id="edit-profile">
+    <div class="profile-container">
+        <h1 class="credibility-score">Credibility Score: </h1>
+        <h1 id="name" contenteditable="true"><%= name %></h1>
+        <p id="username" contenteditable="true"><%= username %></p>
+        <h2>Biography</h2>
+        <textarea id="biography" placeholder="Insert text here"><%= biography %></textarea>
+        <h2>Contact Information</h2>
+        <textarea id="contactInfo" placeholder="Insert text here"><%= contact %></textarea>
+    </div>
+    <input type="submit" class="button save" id="saveButton" value="Save">
+</form>
+
+<button class="button save" id="cancelButton" >Cancel</button>
+<script>
+    const name = document.querySelector("#name");
+    const oldUsername = "<%= username %>";
+    const biography = document.querySelector("#biography");
+    const contact = document.querySelector("#contactInfo");
+    const save = document.querySelector("#saveButton");
+    const cancel = document.querySelector("#cancelButton");
+
+    const credibility = document.querySelector(".credibility-score")
+    
+    
+    const form = document.querySelector('#edit-profile')
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        try {
+
+          const res = await fetch('/api/auth/editUser', {
+            method: 'PUT',
+            body: JSON.stringify({ 
+                'id': "<%= id %>",
+                'name': name.innerText,
+                'oldUsername': oldUsername,
+                'username': username.innerText,
+                'biography': biography.value,
+                'contact': contact.value,
+            }),
+            headers: { 'Content-Type': 'application/json' }
+          })
+          
+          location.assign(`/profile`)
+        } catch (err) {
+          console.log(err.message)
+        }
+
+        
+      })
+    
+    cancel.addEventListener('click', (e) => {
+        e.preventDefault();
+        location.assign('/profile');
+    });
+
+    const getCredibility = async () => {
+        let credibilityScore= 0
+        const res = await fetch('/api/auth/getPosts')
+        const data = await res.json()
+        data.user.map((mappedPost)=> {
+            if (mappedPost.username == "<%= username %>") {
+                credibilityScore += mappedPost.likes - mappedPost.dislikes;
+            }
+        })
+        credibility.innerHTML += credibilityScore;
+    }
+
+    getCredibility();
+    
+
+</script>
+</body>
+</html>

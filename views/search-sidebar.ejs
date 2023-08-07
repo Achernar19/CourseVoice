@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+</head>
+<body>
+<header>
+    <p><h2>CourseVoice Dashboard</h2></p>
+</header>
+<div class="sidebar">
+    <ul>
+        <li><a href="/search"><i class="fas fa-search"></i><span class="nav-item">Search</span></a></li>
+        <li><a href="/dashboard"><i class="fas fa-home"></i><span class="nav-item">Home</span></a></li>
+        <li><a href="/course"><i class="fas fa-list"></i><span class="nav-item">All Courses</span></a></li>
+        <li><a href="/profile"><i class="fas fa-cog"></i><span class="nav-item">Settings</span></a></li>
+    </ul>
+    <ul class="logout">
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i><span class="nav-item">Log Out</span></a></li>
+    </ul>
+</div>
+<div class="searchBox">
+    <input class="searchInput"type="text" name="" placeholder="Search">
+    <button class="searchButton" href="#">
+        <i class="material-icons">
+            search
+        </i>
+    </button>
+</div>
+<br>
+<br>
+<br>
+<br>
+<div class="courses-row">
+</div>
+</body>
+<script>
+    const row = document.querySelector(".courses-row");
+    const username = "<%= username %>";
+    const query = document.querySelector("#query");
+    const searchInput = document.querySelector(".searchInput");
+    const subMapper = {
+                    'STALGCM': 'Advanced Algorithms and Complexities',
+                    'ST-MATH': 'Integral Calculus',
+                    'STHCUIX': 'Human Computer Interactions',
+                    'STSWENG': 'Advanced Software Engineering',
+                    'STADVDB': 'Advanced Database Systems',
+                    'NSCOM01': 'Network Application Protocols',
+                    'NSCOM02': 'Network Connectivity and Data Delivery',
+                    'NSCOM03': 'Data Communication',
+                    'NSSECU1': 'Introduction to Security',
+                    'NSSECU2': 'Advanced and Offensive Security',
+                    'NSSECU3': 'Digital Forensics',
+                    'NSETRON': 'Practical Electricity and Electronics',
+                    'NSEMBED': 'Embedded Platform Development',
+                    'NSRESME': 'NIS Research Methods',
+                    'NSAPDEV': 'Server Application Development',
+                    'NSDSYST': 'Distributed Systems',
+                    }
+    const courses = [
+                    'STALGCM', 'ST-MATH',
+                    'STHCUIX', 'STSWENG',
+                    'STADVDB', 'NSCOM01',
+                    'NSCOM02', 'NSCOM03',
+                    'NSSECU1', 'NSSECU2',
+                    'NSSECU3', 'NSETRON',
+                    'NSEMBED', 'NSRESME',
+                    'NSAPDEV', 'NSDSYST'
+                    ]
+
+      let i = 0;
+
+    const getPosts = async() => {
+      row.innerHTML = "";
+      const keywords = searchInput.value.toLowerCase().split(" ");
+      const res = await fetch('/api/auth/getPosts')
+      const data = await res.json()
+
+      for (let c of courses) {
+        for (let k of keywords) {
+            const courseLower = c.toLowerCase();
+            const mainCourse = c.slice(0, 2)
+            if (courseLower.includes(k)) {
+                const courseContent = `
+
+                    <div class="st${(i%2)+1}">
+                    <a href="/course/${mainCourse}/${c}"> <h1>${c}</h1> </a>
+                    <div class="with-space">
+                        <p>${subMapper[c]}</p>
+                    </div>
+                    <div class="go">
+                        <a href="/course/${mainCourse}/${c}"><button class="button proceed">Proceed</button> </a>
+                    </div>
+                </div>
+
+                `
+
+                row.innerHTML += courseContent;
+
+                i += 1;
+            }
+        }
+      }
+
+      data.user.map((mappedPost)=> {
+        const mappedMain = mappedPost.course.slice(0, 2);
+        for (let k of keywords) {
+            const contentLower = mappedPost.content.toLowerCase();
+            const professorLower = mappedPost.professor.toLowerCase();
+            const usernameLower = mappedPost.username.toLowerCase();
+            const courseLower = mappedPost.course.toLowerCase();
+            if (contentLower.includes(k) || professorLower.includes(k) || usernameLower.includes(k) || courseLower.includes(k)) {
+                let link = `/course/${mappedMain}/${mappedPost.course}/${mappedPost.id}`;
+                let content = `
+                    <div class="st${(i%2 + 1)}">
+                    <a href="${link}"><h2>${mappedPost.professor}</h2></a>
+                    <p class="with-space">${mappedPost.content}</p>
+                    <p class="text-spacing"><i>Author: ${mappedPost.username}</i></p>
+                    <div class="images">
+                    <img src="/Images/like.png" >
+                    <img src="/Images/unlike.png" >
+                    <img src="/Images/warning.png" >
+                `
+
+                if (mappedPost.username == username.innerText) {
+                    content += `
+                    <a href="${link + '/edit'}"> <img src="/Images/pen.png" > </a>
+                    </div>
+                    </div>
+                    `
+                }
+                else {
+                    content += `</div></div>`
+                }
+
+                row.innerHTML += content;
+                i += 1;
+
+                break;
+            }
+        }
+
+        return null
+    })
+}
+    
+
+    searchInput.addEventListener("keypress", (e) => {
+
+        if (e.key == "Enter" && searchInput.value != "") {
+            getPosts();
+        }
+    }) 
+</script>
+<!-- <script>
+    const row = document.querySelector(".courses-row");
+    const username = document.querySelector("#username");
+    const query = document.querySelector("#query");
+    const keywords = query.innerText.toLowerCase().split(" ");
+    let i = 0;
+
+    const getPosts = async() => {
+      const res = await fetch('/api/auth/getPosts')
+      const data = await res.json()
+      data.user.map((mappedPost)=> {
+        const mappedMain = mappedPost.course.slice(0, 2);
+        for (let k of keywords) {
+            const contentLower = mappedPost.content.toLowerCase();
+            const professorLower = mappedPost.professor.toLowerCase();
+            if (contentLower.includes(k) || professorLower.includes(k)) {
+                let link = `/course/${mappedMain}/${mappedPost.course}/${mappedPost.id}`;
+                let content = `
+                    <div class="st${(i%2 + 1)}">
+                    <a href="${link}"><h2>${mappedPost.professor}</h2></a>
+                    <p class="with-space">${mappedPost.content}</p>
+                    <p class="text-spacing"><i>Author: ${mappedPost.username}</i></p>
+                    <div class="images">
+                    <img src="/Images/like.png" >
+                    <img src="/Images/unlike.png" >
+                    <img src="/Images/warning.png" >
+                `
+
+                if (mappedPost.username == username.innerText) {
+                    content += `
+                    <a href="${link + '/edit'}"> <img src="/Images/pen.png" > </a>
+                    </div>
+                    </div>
+                    `
+                }
+                else {
+                    content += `</div></div>`
+                }
+
+                row.innerHTML += content;
+                i += 1;
+
+                break;
+            }
+        }
+
+        return null
+    })
+}
+    getPosts();
+
+</script> -->
+</html>

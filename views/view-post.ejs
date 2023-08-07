@@ -1,0 +1,295 @@
+<!--
+    Manansala, Aerelle Myeica S.
+    Milan, John Llyod B.
+    Siy, Jorgette Courteney C.
+    CCAPDEV S16 Group 3
+    MCO1
+-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+</head>
+<body>
+<header>
+    <p><h2>CourseVoice Dashboard</h2></p>
+</header>
+<div class="sidebar">
+    <ul>
+        <li><a href="/search"><i class="fas fa-search"></i><span class="nav-item">Search</span></a></li>
+        <li><a href="/dashboard"><i class="fas fa-home"></i><span class="nav-item">Home</span></a></li>
+        <li><a href="/course"><i class="fas fa-list"></i><span class="nav-item">All Courses</span></a></li>
+        <li><a href="/profile"><i class="fas fa-cog"></i><span class="nav-item">Settings</span></a></li>
+    </ul>
+    <ul class="logout">
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i><span class="nav-item">Log Out</span></a></li>
+    </ul>
+</div>
+<div id="overlay" >
+    <div id="confirm-delete">
+        <div class="greetings">
+            <p id="course" style="color: white;"><strong>Delete this post?</strong></p>
+        </div>
+
+        <button class="button save" id="confirm-button">Confirm</button>
+        <button class="button save" onclick="cancelDelete()" id="cancel-button">Cancel</button>
+    </div>
+</div>
+<div class="greetings">
+    <p><strong><%= sub %> (<%= subMapped %>)</strong></p>
+</div>
+<p hidden id="parent-id"><%= parent %></p>
+<div class="profile-container">
+    <h1><%= professor %></h1>
+    <p class="text-spacing"><i>Author: <%= username %></i></p>
+    <div class="images">
+        <img src="/Images/like.png" id="like" style="cursor:pointer" >
+        <img src="/Images/unlike.png" id="dislike" style="cursor:pointer" >
+        <img src="/Images/warning.png" id="warning" style="cursor:pointer" >
+        <% if (username == usernameComment) { %>
+            <img src="/Images/pen.png" id="edit" style="cursor:pointer">
+            <img src="/Images/bin.png" id="delete" style="cursor:pointer">
+        <%} else { %>
+            <p hidden></p>
+        <% } %>
+        
+    </div>
+    <div class="prof-rel-box">
+        <p class="with-space"><%= content %></p>
+    </div>
+</div>
+
+<% if (pollTitle != "" && pollChoices.length != 0) { %>
+    <h1>Poll:</h1>
+    <div class="poll-container">
+        <h2 id="poll-title"> <%= pollTitle.replace(/\&nbsp;/g, '') %></h2>
+        <div class="poll">
+        </div>
+    </div>
+<%} else { %>
+    <p hidden></p>
+<% } %>
+
+<p hidden id="poll-choices"><%= JSON.stringify(pollChoices) %></p>
+
+<h1 class="courses">Comments</h1>
+<form id="add-comment">
+    <div class="profile-container">
+        <p style="font-size: smaller"><i id="username-comment">Author: <%= usernameComment %></i></p>
+        <div class="with-space">
+            <textarea id="description-comment" placeholder="Insert text here"></textarea>
+            <input type="submit" value="Comment" class="button com" id="save-button">
+        </div>
+    </div>
+
+</form>
+
+</br>
+
+<div class="comments-box">
+</div>
+
+<script>
+    const mainTitle = "<%= main %>";
+    const subTitle = "<%= sub %>";
+
+    const parentId = document.querySelector("#parent-id");
+    const usernameComment = document.querySelector("#username-comment");
+    const descriptionComment = document.querySelector("#description-comment");
+    const form = document.querySelector('#add-comment')
+
+    const poll = document.querySelector(".poll");
+
+    let pollChoices = <%- JSON.stringify(pollChoices) %>, pollScores = <%- JSON.stringify(pollScores) %>;
+    let pollSum = 0;
+
+    pollScores.forEach( score => {
+     pollSum += score;
+    })
+
+    for (let p in pollChoices) {
+        let percentage = pollSum != 0 ? Math.round(pollScores[p] * 100 / pollSum) : 0;
+        let selectAction = "selectChoice" + "(" + `\"${p}\"` + ")"
+        let content = `
+        <output style="background-image: linear-gradient(to right, #96e072 0 ${percentage}% , white 0);" id="${p}" onclick=${selectAction}>${pollChoices[p]}<pre>:       ${percentage}%</pre></output>
+        `
+        poll.innerHTML += content;
+    }
+
+
+
+
+
+    const selectChoice = async (idx) => {
+        const newScores = pollScores;
+        newScores[idx] += 1;
+        console.log(parentId.innerText)
+        const res = await fetch('/api/auth/selectChoice', {
+        method: 'PUT',
+        body: JSON.stringify({ 
+            'id': parentId.innerText,
+            'pollScores': newScores,
+        }),
+        headers: { 'Content-Type': 'application/json' }
+        })
+
+        location.assign(`/course/${mainTitle}/${subTitle}/${parentId.innerText}`)
+    }
+
+    const likePost = async () => {
+        const res = await fetch('/api/auth/likePost', {
+        method: 'PUT',
+        body: JSON.stringify({ 
+            'id': parentId.innerText,
+        }),
+        headers: { 'Content-Type': 'application/json' }
+        })
+
+        location.assign(`/course/${mainTitle}/${subTitle}/${parentId.innerText}`)
+    }
+
+    const dislikePost = async () => {
+        const res = await fetch('/api/auth/dislikePost', {
+        method: 'PUT',
+        body: JSON.stringify({ 
+            'id': parentId.innerText,
+        }),
+        headers: { 'Content-Type': 'application/json' }
+        })
+
+        location.assign(`/course/${mainTitle}/${subTitle}/${parentId.innerText}`)
+    }
+
+    const initReport = () => {
+        location.assign(`/course/${mainTitle}/${subTitle}/${parentId.innerText}/report`)
+    }
+
+    const initEdit = () => {
+        location.assign(`/course/${mainTitle}/${subTitle}/${parentId.innerText}/edit`)
+    }
+
+    const deletePost = async (id) => {
+        await fetch('/api/auth/deletePost', {
+              method: 'DELETE',
+              body: JSON.stringify({'id': id}),
+              headers: {'Content-Type': 'application/json'}
+        })
+    }
+
+    const initDelete = () => {
+        overlay.style.display = "block";
+
+        confirmDelete = document.querySelector("#confirm-button");
+        confirmDelete.addEventListener("click", async () => {
+            deletePost(parentId.innerText);
+            location.assign(`/course/${mainTitle}/${subTitle}`)
+        })
+    }
+
+    const cancelDelete = () => {
+        overlay.style.display = "none";
+    }
+
+
+
+    const likeButton = document.querySelector("#like");
+    const dislikeButton = document.querySelector("#dislike");
+    const warningButton = document.querySelector("#warning");
+    const editButton = document.querySelector("#edit");
+    const deleteButton = document.querySelector("#delete");
+
+    likeButton.addEventListener("click", likePost)
+    dislikeButton.addEventListener("click", dislikePost)
+    warningButton.addEventListener("click", initReport)
+    if (editButton) {
+        editButton.addEventListener("click", initEdit)
+    }
+    if (deleteButton) {
+        deleteButton.addEventListener("click", initDelete)
+    }
+    
+    // let likeAction = "likePost(\"" + parentId.innerText + "\")"
+    // let dislikeAction = "dislikePost(\"" + parentId.innerText + "\")"
+    // let deleteOverlay =  "initDelete()"
+
+
+    // likeButton.href = `javascript: ${likeAction}`;
+    // dislikeButton.href = `javascript: ${dislikeAction}`;
+    // warningButton.href = `/course/${mainTitle}/${subTitle}/${parentId.innerText}/report`
+
+    // if (editButton) {
+    //     editButton.href = `/course/${mainTitle}/${subTitle}/${parentId.innerText}/edit`
+    // }
+
+    // if (deleteButton) {
+    //     deleteButton.href = `javascript: ${deleteOverlay}`
+    // }
+    
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        try {
+          const postingDate = new Date();
+          const formattedDate = postingDate.toLocaleString('en-us', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            timeZone: 'Asia/Singapore'
+          });
+
+          const res = await fetch('/api/auth/addComment', {
+            method: 'POST',
+            body: JSON.stringify(
+                { 'parent': parentId.innerText,
+                'username': usernameComment.innerText.slice(8),
+                'content': descriptionComment.value,
+                'classification': 'comment',
+                'date': formattedDate }),
+            headers: { 'Content-Type': 'application/json' }
+          })
+          const data = await res.json()
+          location.assign(`/course/${mainTitle}/${subTitle}/${parentId.innerText}`)
+        } catch (err) {
+          console.log(err.message)
+        }
+
+      })
+
+    const commentBox = document.querySelector(".comments-box");
+
+    const getComments = async() => {
+      const res = await fetch('/api/auth/getComments')
+      const data = await res.json()
+      data.user.map((mappedComment)=> {
+        if (mappedComment.parent == parentId.innerText) {
+            console.log(mappedComment);
+          let reportSymbol = mappedComment.classification === 'report' ? 'REPORT: ' : ''
+          let reportBackground = mappedComment.classification === 'report' ? "style=" + "\"" + "background-color: #ffc048"+"\"" : ''
+          let content = `
+          <h3 ${reportBackground}>${reportSymbol}${mappedComment.username}</h3>
+    <p class="with-space">${mappedComment.content}</p>
+    <p class="date-posted">Posted: ${mappedComment.date}</p>
+    <br /> <br />
+    `
+          commentBox.innerHTML += content;
+        } else {
+          return null
+        }
+    })
+}
+
+    getComments();
+
+
+
+</script>
+
+</body>
+</html>
