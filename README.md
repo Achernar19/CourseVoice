@@ -16,8 +16,8 @@ This web application shall act like “DLSU Prof to Pick” wherein BS Computer 
 ## How to Run the Application Locally
 1. Clone or Download the GitHub repository.
     -  https://github.com/Achernar19/CourseVoice.git
-2. Find the location of CourseVoice-main.zip on your device.
-3. Open the Command Prompt on your desktop with the location of CourseVoice-main.zip.
+2. Find the location of CourseVoice-main on your device.
+3. Open the Command Prompt on your desktop with the location of CourseVoice-main.
 4. Input the following in the Command Prompt to ensure all dependencies are installed.
     - npm install
 5. Input the following in the Command Prompt to run the application.
