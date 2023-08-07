@@ -1,9 +1,9 @@
 # CourseVoice
 
 ## Members:
-Manansala, Aerelle Myeica S.
-Milan, John Lloyd B.
-Siy, Jorgette Courteney C.
+- Manansala, Aerelle Myeica S.
+- Milan, John Lloyd B.
+- Siy, Jorgette Courteney C.
 
 ## Brief Description
 This web application shall act like “DLSU Prof to Pick” wherein BS Computer Science Major in Network and Information Security (CS-NIS) and BS Computer Science Major in Software Technology (CS-ST) students will get the chance to have an in-depth understanding of their courses. Besides this, they will also have the opportunity to learn about the professors in their respective subjects.
